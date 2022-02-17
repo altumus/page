@@ -13,14 +13,22 @@
                     <img src="images/sunset-pc.jpg">
                 </div>
                 <div style="display: flex; justify-content: center">
-                    <form action="vendor/create.php" method="post" style="display: flex; flex-direction: column; width: 400px;">
+                    <!-- <form action="vendor/create.php" method="post" style="display: flex; flex-direction: column; width: 400px;">
                         <span style="display: none" name="id"></span>
                         <input type="text" placeholder="Some nickname" name="username">
                         <textarea style="height: 200px; resize: none" name="comment"></textarea>
                         <button type="submit" name="publish">Опубликовать комментарий</button>
+                    </form> -->
+                    <form id="captch_form" method="post" style="display: flex; flex-direction: column; width: 400px;">
+                        <span style="display: none" name="id"></span>
+                        <input type="text" placeholder="Some nickname" name="username" id="username">
+                        <textarea style="height: 200px; resize: none" name="comment" id="comment"></textarea>
+                        <input placeholder="captcha" type="text" name="captcha_code" id="captcha_code">
+                        <img src="image.php" id="captcha_image">
+                        <button type="submit" name="publish" id="publish">Опубликовать комментарий</button>
                     </form>
                 </div>
-                <div style="max-width: 900px; margin-top: 20px; max-height: 500px; overflow: auto; margin-bottom: 100px;" id="comment">
+                <div style="max-width: 900px; margin-top: 20px; max-height: 500px; overflow: auto; margin-bottom: 100px;" id="comments">
                     <?php
                         require_once 'config/connection.php';
                         $all_comments = mysqli_query($connect, "SELECT * FROM `comment`");
@@ -65,5 +73,61 @@
                 })
             })
         </script>  попытка написать что-то с использованием ajax--> 
+
+        <script>
+            $(document).ready(function(){
+                $('#captch_form').on('submit', function(event){
+                    event.preventDefault();
+                    if($('#captcha_code').val() == ''){
+                        alert('Enter Captcha Code');
+                        $('#publish').attr('disabled', 'disabled');
+                        return false;
+                    }
+                    else{
+                        alert('Form has been validate');
+                        let user = $("#username").val();
+                        let comment = $("#comment").val();
+                        console.log(user);
+                        console.log(comment);
+                        $.ajax({
+                            url: 'vendor/create.php',
+                            method: 'POST',
+                            data: {username: user, comment: comment},
+                            success:function(data){
+                                $('#comments').html(data);
+                            }
+                        })
+                        $('#captch_form')[0].reset();
+                        $('#captcha_image').attr('src', 'image.php');
+                    }
+                });
+
+                $('#captcha_code').on('blur', function(){
+                    let code = $('#captcha_code').val();
+                    console.log(code);
+                    if (code == ''){
+                        alert('Enter captcha code block 2');
+                        $('#publish').attr('disabled', 'disabled');
+                    }
+                    else{
+                        $.ajax({
+                            url: 'check_code.php',
+                            method: 'POST',
+                            data: {code: code},
+                            success: function(data){
+                                if(data == 'success'){
+                                    // alert('button enabled');
+                                    $('#publish').attr('disabled', false);
+                                }
+                                else{
+                                    $('#publish').attr('disabled', 'disabled');
+                                    alert('Invalid code');
+                                }
+                            }
+                        })
+                    }
+                });
+            });
+        </script>
     </body>
 </html>
