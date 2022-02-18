@@ -1,133 +1,38 @@
 <!DOCTYPE html>
-<html id="html">
+<html lang="en">
     <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Комментарии к фотографии</title>
-        <link href="styles.css" rel="stylesheet">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Comments on sunset!</title>
+
+        <!-- styles -->
+        <link href="second-styles.css" rel="stylesheet">
+
+        <!-- fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:ital@1&display=swap" rel="stylesheet">
     </head>
-    <body id="app">
-        <div class="container">
-            <div>
-                <div>
-                    <img src="images/sunset-pc.jpg">
-                </div>
-                <div style="display: flex; justify-content: center">
-                    <!-- <form action="vendor/create.php" method="post" style="display: flex; flex-direction: column; width: 400px;">
-                        <span style="display: none" name="id"></span>
-                        <input type="text" placeholder="Some nickname" name="username">
-                        <textarea style="height: 200px; resize: none" name="comment"></textarea>
-                        <button type="submit" name="publish">Опубликовать комментарий</button>
-                    </form> -->
-                    <form id="captch_form" method="post" style="display: flex; flex-direction: column; width: 400px;">
-                        <span style="display: none" name="id"></span>
-                        <input type="text" placeholder="Some nickname" name="username" id="username">
-                        <textarea style="height: 200px; resize: none" name="comment" id="comment"></textarea>
-                        <input placeholder="captcha" type="text" name="captcha_code" id="captcha_code">
-                        <img src="image.php" id="captcha_image">
-                        <button type="submit" name="publish" id="publish">Опубликовать комментарий</button>
-                    </form>
-                </div>
-                <div style="max-width: 900px; margin-top: 20px; max-height: 500px; overflow: auto; margin-bottom: 100px;" id="comments">
-                    <?php
-                        require_once 'config/connection.php';
-                        $all_comments = mysqli_query($connect, "SELECT * FROM `comment`");
-                        $all_comments = mysqli_fetch_all($all_comments);
-                        foreach($all_comments as $comment){
-                    ?>
-                        <div style="margin-top: 20px; max-height: 500px; overflow: auto">
-                            <span class="author"><?= $comment[1] . ' ' . $comment[3]?></span>
-                            <article class="comm"><?= $comment[2] ?></article>
-                            <div class="buttons">
-                                <a href="update.php?id=<?= $comment[0] ?>"><button class="edit">Редактировать</button></a>
-                                <a href="vendor/delete.php?id=<?= $comment[0] ?>"><button class="delete">Удалить</button></a>
-                            </div>
-                        </div>
-                    <?php
-                        }
-                    ?>
-                </div>
+    <body>
+        <span class="title">
+            <h1>Page with comments</h1>
+        </span>
+
+        <div class="main-container">
+            <div class="img-container">
+                <img src="images/sunset-pc.jpg">
+            </div>
+            <div class="form-container">
+                <label>Ваш ник:</label>
+                <input type="text">
+                <label>Комментарий:</label>
+                <textarea></textarea>
+                <input type="text" placeholder="Введите сюда капчу">
+                <button>Отправить капчу</button>
             </div>
         </div>
-        <script src="https://unpkg.com/vue@next"></script>
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-        <script src="vue/app.vue"></script>
-        <!-- <script>
-            $(document).ready(function(){
-                console.log('script downloaded');
-                $("button[name='publish']").on('click', function(){
-                    let user = $("input[name='username']").val();
-                    let comment = $("textarea[name='comment']").val();
-                    console.log(user);
-                    console.log(comment);
 
-                    $.ajax({
-                        method: "POST",
-                        url: "vendor/create.php",
-                        data: {username: user, comment: comment}
-                    })
-                    .done(function(html){
-                        alert('lets go');
-                        $('#comment').text(html);
-                    })
-                })
-            })
-        </script>  попытка написать что-то с использованием ajax--> 
-
-        <script>
-            $(document).ready(function(){
-                $('#captch_form').on('submit', function(event){
-                    event.preventDefault();
-                    if($('#captcha_code').val() == ''){
-                        alert('Enter Captcha Code');
-                        $('#publish').attr('disabled', 'disabled');
-                        return false;
-                    }
-                    else{
-                        alert('Form has been validate');
-                        let user = $("#username").val();
-                        let comment = $("#comment").val();
-                        console.log(user);
-                        console.log(comment);
-                        $.ajax({
-                            url: 'vendor/create.php',
-                            method: 'POST',
-                            data: {username: user, comment: comment},
-                            success:function(data){
-                                $('#comments').html(data);
-                            }
-                        })
-                        $('#captch_form')[0].reset();
-                        $('#captcha_image').attr('src', 'image.php');
-                    }
-                });
-
-                $('#captcha_code').on('blur', function(){
-                    let code = $('#captcha_code').val();
-                    console.log(code);
-                    if (code == ''){
-                        alert('Enter captcha code block 2');
-                        $('#publish').attr('disabled', 'disabled');
-                    }
-                    else{
-                        $.ajax({
-                            url: 'check_code.php',
-                            method: 'POST',
-                            data: {code: code},
-                            success: function(data){
-                                if(data == 'success'){
-                                    // alert('button enabled');
-                                    $('#publish').attr('disabled', false);
-                                }
-                                else{
-                                    $('#publish').attr('disabled', 'disabled');
-                                    alert('Invalid code');
-                                }
-                            }
-                        })
-                    }
-                });
-            });
-        </script>
+        <div class="comments-container">
+            <span>here is comm</span>
+        </div>
     </body>
 </html>
