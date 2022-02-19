@@ -13,15 +13,23 @@
 
 
     echo
-    "<div class='commentary-block' style='margin-top: 20px' id='$id'>
-        <span class='author'>$username  $date</span>
-        <article class='comm'>$text</article>
+    "
+    <div class='comment' id='$id'>
+        <article>
+            <div class='author'>
+                <h3>$username</h3>
+                <h5>$date</h5>
+            </div>
+            <p>
+                $text
+            </p>
+        </article>
         <div class='buttons'>
-            <a href='update.php?id=$id'><button class='edit'>Редактировать</button></a>
-            <a href='vendor/delete.php?id=$id'><button class='delete' id='$id' name='delete'>Удалить</button></a>
+            <a href='update.php?id=$id'><button class='update-btn'>Update</button></a>
+            <button onclick='del(event)' class='delete-btn' id='$id' name='delete-btn'>Delete</button>
         </div>
     </div>
-    ";
+    "
     // header('Location: ../index.php')
 
 ?>

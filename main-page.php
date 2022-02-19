@@ -40,7 +40,7 @@
                             <article class="comm"><?= $comment[2] ?></article>
                             <div class="buttons">
                                 <a href="update.php?id=<?= $comment[0] ?>"><button class="edit">Редактировать</button></a>
-                                <button class="delete" id="<?= $comment[0] ?>" name="delete">Удалить</button>
+                                <button type="submit" class="delete" id="<?= $comment[0] ?>" name="del">Удалить</button>
                             </div>
                         </div>
                     <?php
@@ -104,14 +104,15 @@
                 });
 
                 $('.delete').on('click', function(event){
-                    let id = event.target.id;
-                    console.log($('#' + id));
+                    let ids = event.target.id;
+                    console.log($('#' + ids));
                     $.ajax({
                         url: 'vendor/delete.php',
                         method: 'POST',
-                        data: {id: id},
-                        success: function(){
-                            $('#' + id).remove();
+                        data: {id: ids},
+                        success: function(data){
+                            console.log(data)
+                            $('#' + ids).remove();
                         }
                     })
                 });

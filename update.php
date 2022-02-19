@@ -9,14 +9,20 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>Страница редактирования комментария</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Comment edit</title>
+
+        <link href="css/update-style.min.css" rel="stylesheet">
     </head>
     <body>
-        <form action="vendor/update.php" method="post" style="display: flex; flex-direction: column; max-width: 300px">
-            <input type="hidden" name="id" value=<?= $comment['RecordID'] ?>>
-            <input type="text" placeholder="Some nickname" name="username" value=<?= $comment['User'] ?>>
-            <textarea style="height: 200px; resize: none" name="comment"><?= $comment['Comment'] ?></textarea>
-            <button type="submit">Опубликовать измененный комментарий</button>
-        </form>
+        <div class="container">
+            <h1>Comment edit</h1>
+            <form action="vendor/update.php" method="post" class="form">
+                <input type="hidden" name="id" value=<?= $comment['RecordID'] ?>>
+                <input type="text" id="username" placeholder="Some nickname" name="username" value=<?= $comment['User'] ?>>
+                <textarea style="height: 200px; resize: none" name="comment" id="comment"><?= $comment['Comment'] ?></textarea>
+                <button type="submit">Publish edited comment</button>
+            </form>
+        </div>
     </body>
 </html>

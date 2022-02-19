@@ -1,16 +1,8 @@
 const app = {
     data(){
         return{
-            inputValue : ''
+            title: 'Page with comments',
         }
-    },
-
-    methods: {
-        check(){
-            if(this.inputValue.length == 0){
-                alert('Нельзя оставить пустой комментарий');
-            }
-        },
     }
 }
 
