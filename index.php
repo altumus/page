@@ -64,7 +64,7 @@
             <!-- подключение к бд и получение из неё данных -->
             <?php
                 require_once 'config/connection.php';
-                $all_comments = mysqli_query($connect, "SELECT * FROM `comment`");
+                $all_comments = mysqli_query($connect, "SELECT * FROM `comment` ORDER BY RecordID DESC");
                 $all_comments = mysqli_fetch_all($all_comments);
                 if (count($all_comments) == 0){
                     echo
@@ -140,7 +140,7 @@
                             data: {username: user, comment: comment}, //отправляем данные пользователя в файл с созданием
                             success:function(data){
                                 $('.empty').remove(); //удаляем поле с сообщением о пустоте блока с комментариями
-                                $('.comments-container').append(data); //добавляем запись пользователя
+                                $('.comments-container').prepend(data); //добавляем запись пользователя
                             }
                         })
                         $('#captch_form')[0].reset(); //очищаем форму
